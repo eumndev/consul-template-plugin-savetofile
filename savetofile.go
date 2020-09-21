@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"path/filepath"
 )
 
 func main() {
@@ -26,17 +27,21 @@ func realMain() error {
 	// savetofile <mode> <filepath> <uid> <gid> <data>
 	mode := os.Args[1]
 	path := os.Args[2]
-	uid_arg := os.Args[3]
-	gid_arg := os.Args[4]
+	uidArg := os.Args[3]
+	gidArg := os.Args[4]
 	data := os.Args[5]
 
-	uid, err := strconv.Atoi(uid_arg)
+	uid, err := strconv.Atoi(uidArg)
 	if err != nil {
 		return err
 	}
 
-	gid, err := strconv.Atoi(gid_arg)
+	gid, err := strconv.Atoi(gidArg)
 	if err != nil {
+		return err
+	}
+
+	if err := os.MkdirAll(filepath.Dir(path), 0770); err != nil {
 		return err
 	}
 
